@@ -1,4 +1,4 @@
-package go-log
+package log
 
 import (
 	"fmt"
