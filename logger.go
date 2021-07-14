@@ -1,39 +1,32 @@
 package log
 
-import (
-	"fmt"
-	"io"
-)
+type Logger interface {
+	Alert(a ...interface{})
+	Alertf(format string, a ...interface{})
 
-type Logger struct {
-	Writer io.Writer
-}
+	Error(a ...interface{})
+	Errorf(format string, a ...interface{})
 
-func (l Logger) Log(s ...interface{}) {
-	if l.Writer == nil {
-		return
-	}
-	fmt.Fprintln(l.Writer, s...)
-}
+	Highlight(a ...interface{})
+	Highlightf(format string, a ...interface{})
 
-func (l Logger) Logf(format string, s ...interface{}) {
-	if l.Writer == nil {
-		return
-	}
-	format = fmt.Sprintf("%s%s", format, "\n")
-	fmt.Fprintf(l.Writer, format, s...)
-}
+	Inform(a ...interface{})
+	Informf(format string, a ...interface{})
 
-func (l Logger) Begin(s ...interface{}) {
-	var p []interface{} = append([]interface{}{"BEGIN "}, s...)
-	l.Log(p...)
-}
+	Log(a ...interface{})
+	Logf(format string, a ...interface{})
 
-func (l Logger) End(s ...interface{}) {
-	var p []interface{} = append([]interface{}{"END "}, s...)
-	l.Log(p...)
-}
+	Trace(a ...interface{})
+	Tracef(format string, a ...interface{})
 
-func (l Logger) Error(s string, err error) {
-	l.Log(s, err)
+	Warn(a ...interface{})
+	Warnf(format string, a ...interface{})
+
+	Prefix(...string) Logger
+
+	Begin(a ...interface{}) Logger
+
+	End(a ...interface{})
+
+	Level(uint8) Logger
 }
