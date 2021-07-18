@@ -44,9 +44,12 @@ func funcName() string {
 	return ""
 }
 
-func NewLogger() Logger {
+func NewLogger(w io.Writer) Logger {
+	if w == nil {
+		w = os.Stdout
+	}
 	return myLogger{
-		Writer: os.Stdout,
+		Writer: w,
 		begin:  time.Now(),
 		level:  63,
 	}
