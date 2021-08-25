@@ -22,8 +22,6 @@ const (
 func (l myLogger) Level(level uint8) Logger {
 	logger := myLogger{Writer: l.Writer, prefix: l.prefix, begin: l.begin}
 	switch level {
-	case 0:
-		logger.level = 0
 	case 1:
 		logger.level = alertFlag | errorFlag
 	case 2:
@@ -35,7 +33,7 @@ func (l myLogger) Level(level uint8) Logger {
 	case 5:
 		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag | informFlag | logFlag
 	default:
-		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag | informFlag | logFlag | traceFlag
+		logger.level = 0
 	}
 	return logger
 }
