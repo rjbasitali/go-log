@@ -32,6 +32,8 @@ func (l myLogger) Level(level uint8) Logger {
 		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag | informFlag
 	case 5:
 		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag | informFlag | logFlag
+	case 6:
+		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag | informFlag | logFlag | traceFlag
 	default:
 		logger.level = 0
 	}
