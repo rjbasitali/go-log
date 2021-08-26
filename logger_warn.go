@@ -1,9 +1,6 @@
 package log
 
 func (l myLogger) Warn(a ...interface{}) {
-	if l.Writer == nil {
-		return
-	}
 	if !hasLevel(l.level, warnFlag) {
 		return
 	}
@@ -11,9 +8,6 @@ func (l myLogger) Warn(a ...interface{}) {
 }
 
 func (l myLogger) Warnf(format string, a ...interface{}) {
-	if l.Writer == nil {
-		return
-	}
 	if !hasLevel(l.level, warnFlag) {
 		return
 	}

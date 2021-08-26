@@ -1,9 +1,6 @@
 package log
 
 func (l myLogger) Inform(a ...interface{}) {
-	if l.Writer == nil {
-		return
-	}
 	if !hasLevel(l.level, informFlag) {
 		return
 	}
@@ -11,9 +8,6 @@ func (l myLogger) Inform(a ...interface{}) {
 }
 
 func (l myLogger) Informf(format string, a ...interface{}) {
-	if l.Writer == nil {
-		return
-	}
 	if !hasLevel(l.level, informFlag) {
 		return
 	}

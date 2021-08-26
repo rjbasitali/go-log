@@ -1,9 +1,6 @@
 package log
 
 func (l myLogger) Trace(a ...interface{}) {
-	if l.Writer == nil {
-		return
-	}
 	if !hasLevel(l.level, traceFlag) {
 		return
 	}
@@ -11,9 +8,6 @@ func (l myLogger) Trace(a ...interface{}) {
 }
 
 func (l myLogger) Tracef(format string, a ...interface{}) {
-	if l.Writer == nil {
-		return
-	}
 	if !hasLevel(l.level, traceFlag) {
 		return
 	}
