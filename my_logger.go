@@ -28,7 +28,9 @@ func (l myLogger) logf(format string, s ...interface{}) {
 	if l.Writer == nil {
 		return
 	}
-	format = fmt.Sprintf("%s %s %s\n", l.prefix, funcName(), format)
+	format = fmt.Sprintf("%%s %%s %s\n", format)
+	s = append([]interface{}{l.prefix, funcName()}, s...)
+
 	fmt.Fprintf(l.Writer, format, s...)
 }
 
