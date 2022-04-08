@@ -44,19 +44,19 @@ func (l myLogger) Level(level uint8) Logger {
 
 func unmarshalLevel(level uint8) string {
 	switch level {
-	case 1:
+	case alertFlag:
 		return "alert"
-	case 2:
+	case errorFlag:
 		return "error"
-	case 3:
+	case warnFlag:
 		return "warn"
-	case 4:
+	case highlightFlag:
 		return "highlight"
-	case 5:
+	case informFlag:
 		return "inform"
-	case 6:
+	case logFlag:
 		return "log"
-	case 7:
+	case traceFlag:
 		return "trace"
 	default:
 		return ""

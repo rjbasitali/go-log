@@ -28,7 +28,7 @@ func (l myLogger) log(level uint8, s ...interface{}) {
 	if l.Writer == nil {
 		return
 	}
-	f := fmt.Sprintf("%s%s msg=%q\n", logPrefix(level), l.prefix, fmt.Sprint(s...))
+	f := fmt.Sprintf("%s%s msg=%q", logPrefix(level), l.prefix, fmt.Sprint(s...))
 	fmt.Fprintln(l.Writer, f)
 }
 
