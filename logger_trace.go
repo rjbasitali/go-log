@@ -4,12 +4,12 @@ func (l myLogger) Trace(a ...interface{}) {
 	if !hasLevel(l.level, traceFlag) {
 		return
 	}
-	l.log(a...)
+	l.log(traceFlag, a...)
 }
 
 func (l myLogger) Tracef(format string, a ...interface{}) {
 	if !hasLevel(l.level, traceFlag) {
 		return
 	}
-	l.logf(format, a...)
+	l.logf(traceFlag, format, a...)
 }

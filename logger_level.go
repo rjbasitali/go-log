@@ -2,12 +2,12 @@ package log
 
 const (
 	alertFlag     = 0b00000001 // L1
-	errorFlag     = 0b00000001 // L1
-	warnFlag      = 0b00000010 // L2
-	highlightFlag = 0b00000100 // L3
-	informFlag    = 0b00001000 // L4
-	logFlag       = 0b00010000 // L5
-	traceFlag     = 0b00100000 // L6
+	errorFlag     = 0b00000010 // L2
+	warnFlag      = 0b00000100 // L3
+	highlightFlag = 0b00001000 // L4
+	informFlag    = 0b00010000 // L5
+	logFlag       = 0b00100000 // L6
+	traceFlag     = 0b01000000 // L7
 )
 
 // Level returns a leveled logger, level can be from 1 to 6.
@@ -23,21 +23,44 @@ func (l myLogger) Level(level uint8) Logger {
 	logger := myLogger{Writer: l.Writer, prefix: l.prefix, begin: l.begin}
 	switch level {
 	case 1:
-		logger.level = alertFlag | errorFlag
+		logger.level = alertFlag
 	case 2:
-		logger.level = alertFlag | errorFlag | warnFlag
+		logger.level = alertFlag | errorFlag
 	case 3:
-		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag
+		logger.level = alertFlag | errorFlag | warnFlag
 	case 4:
-		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag | informFlag
+		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag
 	case 5:
-		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag | informFlag | logFlag
+		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag | informFlag
 	case 6:
+		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag | informFlag | logFlag
+	case 7:
 		logger.level = alertFlag | errorFlag | warnFlag | highlightFlag | informFlag | logFlag | traceFlag
 	default:
 		logger.level = 0
 	}
 	return logger
+}
+
+func unmarshalLevel(level uint8) string {
+	switch level {
+	case 1:
+		return "alert"
+	case 2:
+		return "error"
+	case 3:
+		return "warn"
+	case 4:
+		return "highlight"
+	case 5:
+		return "inform"
+	case 6:
+		return "log"
+	case 7:
+		return "trace"
+	default:
+		return ""
+	}
 }
 
 func hasLevel(b uint8, flag uint8) bool {

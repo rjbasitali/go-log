@@ -4,12 +4,12 @@ func (l myLogger) Alert(a ...interface{}) {
 	if !hasLevel(l.level, alertFlag) {
 		return
 	}
-	l.log(a...)
+	l.log(alertFlag, a...)
 }
 
 func (l myLogger) Alertf(format string, a ...interface{}) {
 	if !hasLevel(l.level, alertFlag) {
 		return
 	}
-	l.logf(format, a...)
+	l.logf(alertFlag, format, a...)
 }
