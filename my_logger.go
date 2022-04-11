@@ -55,7 +55,7 @@ func (l myLogger) logf(level uint8, format string, s ...interface{}) {
 	if l.Writer == nil {
 		return
 	}
-	format = fmt.Sprintf("%%s %%s msg=\"%s\" %s\n", format, l.data)
+	format = fmt.Sprintf("%%s%%s msg=\"%s\" %s\n", format, l.data)
 	s = append([]interface{}{logPrefix(level), l.prefix}, s...)
 	fmt.Fprintf(l.Writer, format, s...)
 }
