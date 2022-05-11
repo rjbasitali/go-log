@@ -20,7 +20,7 @@ const (
 // Anything above 6 as level will be considered Level 6.
 // Pass 0 to output no logs.
 func (l myLogger) Level(level uint8) Logger {
-	logger := myLogger{Writer: l.Writer, prefix: l.prefix, begin: l.begin}
+	logger := myLogger{Writer: l.Writer, ErrWriter: l.ErrWriter, prefix: l.prefix, begin: l.begin}
 	switch level {
 	case 1:
 		logger.level = alertFlag

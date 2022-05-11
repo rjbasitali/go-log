@@ -16,11 +16,12 @@ var (
 type Fields map[string]interface{}
 
 type myLogger struct {
-	Writer io.Writer
-	prefix string
-	begin  time.Time
-	level  uint8
-	data   Fields
+	Writer    io.Writer
+	ErrWriter io.Writer
+	prefix    string
+	begin     time.Time
+	level     uint8
+	data      Fields
 }
 
 func logPrefix(level uint8) string {
@@ -43,21 +44,41 @@ func (fields Fields) String() string {
 	return buffer.String()
 }
 
-func (l myLogger) log(level uint8, s ...interface{}) {
-	if l.Writer == nil {
-		return
+func (l myLogger) log(flag uint8, s ...interface{}) {
+	var w io.Writer
+	{
+		if flag != errorFlag && l.Writer == nil {
+			return
+		} else {
+			w = l.Writer
+		}
+		if flag == errorFlag && l.ErrWriter == nil {
+			return
+		} else {
+			w = l.ErrWriter
+		}
 	}
-	f := fmt.Sprintf("%s%s msg=%q%s", logPrefix(level), l.prefix, fmt.Sprint(s...), l.data)
-	fmt.Fprintln(l.Writer, f)
+	f := fmt.Sprintf("%s%s msg=%q%s", logPrefix(flag), l.prefix, fmt.Sprint(s...), l.data)
+	fmt.Fprintln(w, f)
 }
 
-func (l myLogger) logf(level uint8, format string, s ...interface{}) {
-	if l.Writer == nil {
-		return
+func (l myLogger) logf(flag uint8, format string, s ...interface{}) {
+	var w io.Writer
+	{
+		if flag != errorFlag && l.Writer == nil {
+			return
+		} else {
+			w = l.Writer
+		}
+		if flag == errorFlag && l.ErrWriter == nil {
+			return
+		} else {
+			w = l.ErrWriter
+		}
 	}
 	format = fmt.Sprintf("%%s%%s msg=\"%s\"%s\n", format, l.data)
-	s = append([]interface{}{logPrefix(level), l.prefix}, s...)
-	fmt.Fprintf(l.Writer, format, s...)
+	s = append([]interface{}{logPrefix(flag), l.prefix}, s...)
+	fmt.Fprintf(w, format, s...)
 }
 
 func funcName() string {
@@ -77,13 +98,17 @@ func funcName() string {
 	return ""
 }
 
-func NewLogger(w io.Writer) Logger {
+func NewLogger(w, errw io.Writer) Logger {
 	if w == nil {
 		w = os.Stdout
 	}
+	if errw == nil {
+		errw = os.Stderr
+	}
 	return myLogger{
-		Writer: w,
-		begin:  time.Now(),
-		level:  traceFlag,
+		Writer:    w,
+		ErrWriter: errw,
+		begin:     time.Now(),
+		level:     traceFlag,
 	}
 }
