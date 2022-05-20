@@ -47,15 +47,10 @@ func (fields Fields) String() string {
 func (l myLogger) log(flag uint8, s ...interface{}) {
 	var w io.Writer
 	{
-		if flag != errorFlag && l.Writer == nil {
-			return
+		if flag == errorFlag {
+			w = l.ErrWriter
 		} else {
 			w = l.Writer
-		}
-		if flag == errorFlag && l.ErrWriter == nil {
-			return
-		} else {
-			w = l.ErrWriter
 		}
 	}
 	f := fmt.Sprintf("%s%s msg=%q%s", logPrefix(flag), l.prefix, fmt.Sprint(s...), l.data)
@@ -65,15 +60,10 @@ func (l myLogger) log(flag uint8, s ...interface{}) {
 func (l myLogger) logf(flag uint8, format string, s ...interface{}) {
 	var w io.Writer
 	{
-		if flag != errorFlag && l.Writer == nil {
-			return
+		if flag == errorFlag {
+			w = l.ErrWriter
 		} else {
 			w = l.Writer
-		}
-		if flag == errorFlag && l.ErrWriter == nil {
-			return
-		} else {
-			w = l.ErrWriter
 		}
 	}
 	format = fmt.Sprintf("%%s%%s msg=\"%s\"%s\n", format, l.data)
