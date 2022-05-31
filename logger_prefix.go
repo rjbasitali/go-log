@@ -11,6 +11,6 @@ func (l myLogger) Prefix(p ...string) Logger {
 	for _, prefix := range p {
 		buffer.WriteString(fmt.Sprintf("%s: ", prefix))
 	}
-	logger := myLogger{Writer: l.Writer, prefix: buffer.String()}
+	logger := myLogger{Writer: l.Writer, ErrWriter: l.ErrWriter, prefix: buffer.String(), data: l.data}
 	return logger
 }

@@ -29,4 +29,6 @@ type Logger interface {
 	End(a ...interface{})
 
 	Level(uint8) Logger
+
+	WithFields(fields Fields) Logger
 }
