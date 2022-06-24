@@ -53,7 +53,7 @@ func (l myLogger) log(flag uint8, s ...interface{}) {
 			w = l.Writer
 		}
 	}
-	f := fmt.Sprintf("%s%s msg=%q%s", logPrefix(flag), l.prefix, fmt.Sprint(s...), l.data)
+	f := fmt.Sprintf("%s%s msg=%q%s", l.prefix, logPrefix(flag), fmt.Sprint(s...), l.data)
 	fmt.Fprintln(w, f)
 }
 
@@ -67,7 +67,7 @@ func (l myLogger) logf(flag uint8, format string, s ...interface{}) {
 		}
 	}
 	format = fmt.Sprintf("%%s%%s msg=\"%s\"%s\n", format, l.data)
-	s = append([]interface{}{logPrefix(flag), l.prefix}, s...)
+	s = append([]interface{}{l.prefix, logPrefix(flag)}, s...)
 	fmt.Fprintf(w, format, s...)
 }
 
